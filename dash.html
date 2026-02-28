@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI HealthVision • Dashboard (Dataset-linked)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Poppins", sans-serif; }
+    body { display: flex; height: 100vh; background: #120a12; color: #fff; overflow: hidden; }
+    .sidebar { width: 260px; background: linear-gradient(180deg, #1a1333, #120a12); padding: 30px 20px; display: flex; flex-direction: column; align-items: center; box-shadow: 4px 0 20px rgba(0,0,0,0.3); }
+    .avatar { width: 80px; height: 80px; border-radius: 50%; background: #7b4dff; color: #0b132b; font-size: 2.2rem; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-bottom: 15px; box-shadow: 0 0 20px #1fcdd088; }
+    .user-info { text-align: center; margin-bottom: 30px; }
+    .user-info h3 { font-size: 1.2rem; }
+    nav a { display: block; color: #fff; text-decoration: none; margin: 15px 0; cursor: pointer; font-weight: 500; }
+    nav a:hover { color: #1fcdd0; }
+    .content { flex: 1; background: #1e163d; padding: 40px; overflow-y: auto; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    .header h1 { font-size: 1.8rem; }
+    .back-btn { background: #1fcdd0; color: #0b132b; border: none; border-radius: 25px; padding: 10px 20px; cursor: pointer; font-weight: 600; transition: background 0.3s, transform 0.3s; }
+    .back-btn:hover { background: #6a3df0; transform: scale(1.05); }
+    .dashboard-section { background: #221a44; border-radius: 15px; padding: 25px; min-height: 200px; box-shadow: 0 4px 25px rgba(0,0,0,0.2); margin-bottom: 30px; }
+    #chatMessages { min-height: 220px; max-height: 320px; overflow-y: auto; padding-right: 8px; }
+    .chat-bubble-user { background: #1fcdd033; color: #0b132b; float: right; text-align: right; clear: both; margin: 8px 0; padding: 10px 15px; border-radius: 15px; max-width: 75%; word-wrap: break-word; }
+    .chat-bubble-bot { background: #2a1f55; color: #e2eaf2; float: left; text-align: left; clear: both; margin: 8px 0; padding: 10px 15px; border-radius: 15px; max-width: 75%; word-wrap: break-word; white-space: pre-line; }
+    .typing-indicator span { animation: blink 1.3s infinite; display: inline-block; }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s;}
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s;}
+    @keyframes blink { 0% {opacity:.2;}20%{opacity:1;}100%{opacity:.2;} }
+    #chatInputArea { margin-top: 14px; display: flex; gap: 6px; }
+    #userMessage { flex: 1; border-radius: 8px; padding:12px; font-size:1rem; border:none; outline:none; box-shadow:0 2px 6px #2226; background:#fff; color:#000; }
+    #sendBtn { padding: 12px 24px; border:none; border-radius:8px; background:#1fcdd0; color:#0b132b; font-weight:700; cursor:pointer; font-size:1rem; }
+    #reportList, #newReportDisplay { max-height: 350px; overflow-y: auto; text-align: left; }
+    .report-item { background: #102040; border-radius: 10px; padding: 15px; margin-bottom: 12px; box-shadow: 0 0 15px #1fcdd022; }
+    .report-item h4 { color: #1fcdd0; margin-bottom: 8px; }
+    .report-item p { margin: 6px 0; }
+    .status { font-size: 0.9rem; color: #b9c7d6; margin-top: 8px; }
+    .top-results { margin-top: 10px; }
+    .result-item { background:#2c215f; padding:10px; border-radius:8px; margin-bottom:8px; }
+    .small { font-size:0.85rem; color:#b9c7d6; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="avatar" id="avatarLetter">A</div>
+    <div class="user-info">
+      <h3 id="userName">User Name</h3>
+    </div>
+    <nav>
+      <a id="navNewReport">+ New Report</a>
+      <a id="navViewHistory">View History</a>
+      <a href="#" id="openChatboxBtn">AI Chatbox</a>
+      <a href="#" id="logoutBtn">Logout</a>
+    </nav>
+  </div>
+
+  <div class="content">
+    <div class="header">
+      <h1 id="pageTitle">Dashboard</h1>
+      <button id="backBtn" class="back-btn" style="display:none;">← Back</button>
+    </div>
+
+    <div id="newReportSection" class="dashboard-section" style="display:none;">
+      <h3>Latest AI Report</h3>
+      <div id="newReportDisplay">No new report yet. Use AI Chatbox to generate one.</div>
+    </div>
+
+    <div id="mainDashboardSection" class="dashboard-section">
+      <p>Welcome! Use the navigation to start.</p>
+      <p class="status" id="loadStatus">Dataset: loading...</p>
+    </div>
+
+    <div id="historySection" class="dashboard-section" style="display:none;">
+      <h3>Your Past Reports</h3>
+      <div id="reportList">Loading...</div>
+    </div>
+
+    <div id="aiChatboxContainer" class="dashboard-section" style="display:none;">
+      <h3>🩺 Smart Health AI Chatbot (Dataset-based Diagnosis)</h3>
+      <div id="chatArea" style="max-width: 720px; margin:auto; text-align:left;">
+        <div id="chatMessages"></div>
+        <div id="chatInputArea" style="display:flex;">
+          <input type="text" id="userMessage" placeholder="Enter comma-separated symptoms: e.g. headache, dizziness, nausea" autocomplete="off" />
+          <button id="sendBtn" disabled>Send</button>
+        </div>
+        <p class="small">Tip: enter symptoms separated by commas (Option A)</p>
+        <div id="lastResults" class="top-results"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Configuration
+  const fetchPaths = [
+    "Disease and symptoms dataset.csv",
+    "Disease and symptoms dataset 2023/Disease and symptoms dataset.csv",
+    "/Disease and symptoms dataset.csv"
+  ];
+
+  let allColumns = [];
+  let symptomColumns = [];
+  let dataset = [];
+  let loaded = false;
+
+  // UI refs
+  const pageTitle = document.getElementById("pageTitle");
+  const loadStatus = document.getElementById("loadStatus");
+  const sendBtn = document.getElementById("sendBtn");
+  const userMessageInput = document.getElementById("userMessage");
+
+  // Session tracking
+  let currentUserSessionId = null;
+  const SESSION_KEY = 'userSessionId';
+
+  function initializeUserSession() {
+    const storedName = localStorage.getItem('userName') || 'User';
+    const storedSessionId = localStorage.getItem(SESSION_KEY);
+
+    if (!storedSessionId) {
+      currentUserSessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem(SESSION_KEY, currentUserSessionId);
+    } else {
+      currentUserSessionId = storedSessionId;
+    }
+
+    checkAndTransferNewReportOnLogin(storedName);
+
+    document.getElementById('userName').textContent = storedName;
+    document.getElementById('avatarLetter').textContent = storedName.charAt(0).toUpperCase();
+  }
+
+  function checkAndTransferNewReportOnLogin(userName) {
+    const latestReport = localStorage.getItem('latestReport');
+    if (latestReport) {
+      moveNewReportToHistory();
+      console.log(`🔄 New report transferred to history on re-login for ${userName}`);
+    }
+  }
+
+  document.getElementById('logoutBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    moveNewReportToHistory();
+    localStorage.removeItem('userName');
+    localStorage.removeItem('latestReport');
+    localStorage.removeItem(SESSION_KEY);
+    currentUserSessionId = null;
+    alert('Logged out successfully!');
+    window.location.href = 'login.html'; // adjust this URL as per your login page
+  });
+
+  document.getElementById('navNewReport').addEventListener('click', () => {
+    pageTitle.textContent = "Latest Report";
+    showSection(document.getElementById('newReportSection'));
+    loadNewReportDisplay();
+    document.getElementById('backBtn').style.display = 'block';
+  });
+
+  document.getElementById('navViewHistory').addEventListener('click', () => {
+    pageTitle.textContent = "Your Report History";
+    document.getElementById('mainDashboardSection').style.display = 'none';
+    document.getElementById('newReportSection').style.display = 'none';
+    document.getElementById('historySection').style.display = 'block';
+    document.getElementById('aiChatboxContainer').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'block';
+    loadHistory();
+  });
+
+  document.getElementById('openChatboxBtn').addEventListener('click', () => {
+    pageTitle.textContent = "AI Chatbox";
+    showSection(document.getElementById('aiChatboxContainer'));
+    if (loaded) startChatbot();
+  });
+
+  document.getElementById('backBtn').addEventListener('click', () => {
+    pageTitle.textContent = "Dashboard";
+    document.getElementById('mainDashboardSection').style.display = 'block';
+    document.getElementById('newReportSection').style.display = 'none';
+    document.getElementById('historySection').style.display = 'none';
+    document.getElementById('aiChatboxContainer').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
+  });
+
+  function showSection(section) {
+    document.getElementById('mainDashboardSection').style.display = 'none';
+    document.getElementById('newReportSection').style.display = 'none';
+    document.getElementById('historySection').style.display = 'none';
+    document.getElementById('aiChatboxContainer').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'block';
+    section.style.display = 'block';
+  }
+
+  function saveLatestReport(report) {
+    localStorage.setItem('latestReport', JSON.stringify(report));
+    loadNewReportDisplay();
+  }
+
+  function loadNewReportDisplay() {
+    const latestReport = localStorage.getItem('latestReport');
+    const display = document.getElementById('newReportDisplay');
+    if (!latestReport) {
+      display.innerHTML = '<p class="small">No new report yet. Use AI Chatbox to generate one.</p>';
+      return;
+    }
+    const report = JSON.parse(latestReport);
+    display.innerHTML = `
+      <div class="report-item">
+        <h4>Latest AI Diagnosis Report</h4>
+        <p><strong>Name:</strong> ${report.name}</p>
+        <p><strong>Gender:</strong> ${report.gender}</p>
+        <p><strong>Age:</strong> ${report.age}</p>
+        <p><strong>Symptoms:</strong> ${report.symptoms}</p>
+        <p><strong>Date:</strong> ${report.date}</p>
+        <p><strong>Top Results:</strong><br/><span class="small">${report.response}</span></p>
+      </div>
+    `;
+  }
+
+  function moveNewReportToHistory() {
+    const latestReport = localStorage.getItem('latestReport');
+    if (latestReport) {
+      const report = JSON.parse(latestReport);
+      const history = JSON.parse(localStorage.getItem("reportHistory") || "[]");
+      history.unshift(report);
+      localStorage.setItem("reportHistory", JSON.stringify(history));
+      localStorage.removeItem('latestReport');
+      loadNewReportDisplay();
+    }
+  }
+
+  async function tryFetchCSV(paths) {
+    for (const p of paths) {
+      try {
+        const resp = await fetch(p);
+        if (!resp.ok) throw new Error("Not found: " + p);
+        const text = await resp.text();
+        return { text, path: p };
+      } catch (e) {}
+    }
+    throw new Error("CSV not found in known paths. Put the CSV next to this HTML or update fetchPaths.");
+  }
+
+  function parseCSV(text) {
+    const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+    const headerLine = lines.shift();
+    const headers = headerLine.split(",").map(h => h.trim());
+    const rows = lines.map(l => l.split(",").map(c => c.trim()));
+    return { headers, rows };
+  }
+
+  async function loadDataset() {
+    loadStatus.textContent = "Dataset: loading...";
+    try {
+      const { text, path } = await tryFetchCSV(fetchPaths);
+      loadStatus.textContent = `Dataset loaded from "${path}"`;
+      const { headers, rows } = parseCSV(text);
+      allColumns = headers;
+      const diseaseCol = headers[0];
+      symptomColumns = headers.slice(1);
+      dataset = rows.map(r => {
+        const disease = r[0] || "unknown";
+        const present = new Set();
+        for (let i = 1; i < headers.length; i++) {
+          const val = r[i] ? Number(r[i]) : 0;
+          if (!isNaN(val) && val === 1) present.add(headers[i]);
+        }
+        return { disease, symptomsPresent: present, totalSymptomsCount: present.size };
+      });
+      loaded = true;
+      sendBtn.disabled = false;
+      loadStatus.textContent += ` — ${dataset.length} rows, ${symptomColumns.length} symptom columns`;
+    } catch (e) {
+      loadStatus.textContent = "Dataset load error: " + e.message;
+      console.error(e);
+      loaded = false;
+      sendBtn.disabled = true;
+    }
+  }
+
+  function normalize(s) {
+    return s.trim().toLowerCase();
+  }
+
+  function matchTokenToColumns(token) {
+    const t = normalize(token);
+    if (t.length === 0) return [];
+    let exact = symptomColumns.filter(c => normalize(c) === t);
+    if (exact.length) return exact;
+    let contains = symptomColumns.filter(c => normalize(c).includes(t));
+    if (contains.length) return contains;
+    let reverse = symptomColumns.filter(c => t.includes(normalize(c)));
+    if (reverse.length) return reverse;
+    const words = t.split(/\s+/).filter(Boolean);
+    if (words.length > 1) {
+      let scored = symptomColumns.map(c => {
+        const cn = normalize(c);
+        const score = words.reduce((acc,w) => acc + (cn.includes(w) ? 1 : 0), 0);
+        return { c, score };
+      }).filter(x => x.score > 0).sort((a,b) => b.score - a.score);
+      if (scored.length) return [...new Set(scored.slice(0,3).map(x => x.c))];
+    }
+    return [];
+  }
+
+  function findDisease(userSymptomsCSV) {
+    if (!loaded) return { error: "Dataset not loaded yet." };
+    const tokens = userSymptomsCSV.split(",").map(t => t.trim()).filter(Boolean);
+    if (tokens.length === 0) return { error: "Please enter one or more symptoms separated by commas." };
+
+    const mappedColumns = [];
+    const unmatchedTokens = [];
+    tokens.forEach(tok => {
+      const matches = matchTokenToColumns(tok);
+      if (matches.length) {
+        matches.forEach(m => { if (!mappedColumns.includes(m)) mappedColumns.push(m); });
+      } else {
+        unmatchedTokens.push(tok);
+      }
+    });
+
+    if (mappedColumns.length === 0) {
+      return { error: null, mappedColumns, unmatchedTokens, results: [] };
+    }
+
+    const results = dataset.map(row => {
+      let matchCount = 0;
+      mappedColumns.forEach(col => {
+        if (row.symptomsPresent.has(col)) matchCount++;
+      });
+      const userMatchPercent = (matchCount / mappedColumns.length) * 100;
+      const diseaseCoverage = row.totalSymptomsCount > 0 ? (matchCount / row.totalSymptomsCount) * 100 : 0;
+      return {
+        disease: row.disease,
+        matchCount,
+        mappedColumnsMatched: matchCount,
+        userMatchPercent: Math.round(userMatchPercent * 10) / 10,
+        diseaseCoverage: Math.round(diseaseCoverage * 10) / 10,
+        totalSymptomsForDisease: row.totalSymptomsCount
+      };
+    });
+
+    const filtered = results.filter(r => r.matchCount > 0);
+    filtered.sort((a,b) => {
+      if (b.matchCount !== a.matchCount) return b.matchCount - a.matchCount;
+      if (b.userMatchPercent !== a.userMatchPercent) return b.userMatchPercent - a.userMatchPercent;
+      return b.diseaseCoverage - a.diseaseCoverage;
+    });
+
+    return { error: null, mappedColumns, unmatchedTokens, results: filtered.slice(0, 10) };
+  }
+
+  let userData = { name: null, gender: null, age: null, symptoms: null };
+  let conversationPhase = "askName";
+
+  function appendMsg(msg, who = "bot") {
+    const msgDiv = document.createElement("div");
+    msgDiv.className = "chat-bubble-" + who;
+    msgDiv.innerText = msg;
+    document.getElementById("chatMessages").appendChild(msgDiv);
+    document.getElementById("chatMessages").scrollTop = 99999;
+  }
+
+  function clearInput() { userMessageInput.value = ""; }
+  function showInputArea(show = true) { document.getElementById("chatInputArea").style.display = show ? "flex" : "none"; }
+  function removeLastMsg() {
+    const chatArea = document.getElementById("chatMessages");
+    if (chatArea.lastChild) chatArea.removeChild(chatArea.lastChild);
+  }
+
+  function loadHistory() {
+    const history = JSON.parse(localStorage.getItem("reportHistory") || "[]");
+    const list = document.getElementById("reportList");
+    list.innerHTML = "";
+    if (history.length === 0) {
+      list.innerHTML = "<p>No reports saved yet.</p>";
+      return;
+    }
+    history.forEach((report, index) => {
+      let item = document.createElement("div");
+      item.classList.add("report-item");
+      item.innerHTML = `<h4>Report ${index + 1} - ${report.date}</h4>
+        <p><strong>Name:</strong> ${report.name}</p>
+        <p><strong>Gender:</strong> ${report.gender}</p>
+        <p><strong>Age:</strong> ${report.age}</p>
+        <p><strong>Symptoms:</strong> ${report.symptoms}</p>
+        <p><strong>Results:</strong><br/><pre style="white-space:pre-wrap;">${report.response}</pre></p>`;
+      list.appendChild(item);
+    });
+  }
+
+  function startChatbot() {
+    userData = { name: null, gender: null, age: null, symptoms: null };
+    conversationPhase = "askName";
+    document.getElementById("chatMessages").innerHTML = "";
+    showInputArea(true);
+    appendMsg("Welcome! I will ask a few details and then analyze your symptoms using the dataset.");
+    appendMsg("What is your name?");
+    userMessageInput.placeholder = "Type your name";
+    userMessageInput.focus();
+  }
+
+  sendBtn.addEventListener('click', () => {
+    const text = userMessageInput.value.trim();
+    if (!text) return;
+    handleUserMessage(text);
+  });
+  userMessageInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendBtn.click();
+    }
+  });
+
+  function displayResultsBlock(resultObj, mappedColumns, unmatchedTokens) {
+    const lastResults = document.getElementById("lastResults");
+    lastResults.innerHTML = "";
+    if (unmatchedTokens && unmatchedTokens.length) {
+      const warn = document.createElement("div");
+      warn.className = "report-item";
+      warn.innerHTML = `<strong>Unmatched tokens:</strong><br/><span class="small">${unmatchedTokens.join(", ")}</span>`;
+      lastResults.appendChild(warn);
+    }
+    const mappedInfo = document.createElement("div");
+    mappedInfo.className = "report-item";
+    mappedInfo.innerHTML = `<strong>Mapped columns:</strong><br/><span class="small">${mappedColumns.join(", ")}</span>`;
+    lastResults.appendChild(mappedInfo);
+    if (!resultObj.results || resultObj.results.length === 0) {
+      const none = document.createElement("div");
+      none.className = "report-item";
+      none.innerHTML = `<strong>No disease found.</strong><br/><span class="small">Try other symptom words.</span>`;
+      lastResults.appendChild(none);
+      return;
+    }
+    resultObj.results.forEach(r => {
+      const el = document.createElement("div");
+      el.className = "result-item";
+      el.innerHTML = `<strong>${r.disease}</strong>
+        <div class="small">Matched: ${r.matchCount}/${mappedColumns.length} • ${r.userMatchPercent}%</div>`;
+      lastResults.appendChild(el);
+    });
+  }
+
+  async function handleUserMessage(userText) {
+    appendMsg(userText, "user");
+    clearInput();
+
+    if (conversationPhase === "askName") {
+      userData.name = userText.trim();
+      appendMsg(`Hello ${userData.name}. Are you male or female?`);
+      conversationPhase = "askGender";
+      userMessageInput.placeholder = "male / female";
+      return;
+    }
+
+    if (conversationPhase === "askGender") {
+      const val = userText.trim().toLowerCase();
+      if (["male","m","पुरुष"].includes(val)) {
+        userData.gender = "male";
+        appendMsg(`Hello Mr. ${userData.name}! Please tell your age.`);
+        conversationPhase = "askAge";
+      } else if (["female","f","महिला"].includes(val)) {
+        userData.gender = "female";
+        appendMsg(`Hello Ms. ${userData.name}! Please tell your age.`);
+        conversationPhase = "askAge";
+      } else {
+        appendMsg("Please enter 'male' or 'female'.");
+      }
+      userMessageInput.placeholder = "age (number)";
+      return;
+    }
+
+    if (conversationPhase === "askAge") {
+      const ageNum = parseInt(userText);
+      if (!isNaN(ageNum) && ageNum > 0 && ageNum < 150) {
+        userData.age = ageNum;
+        appendMsg("Please enter your symptoms (comma-separated).");
+        conversationPhase = "askSymptoms";
+        userMessageInput.placeholder = "e.g. headache, dizziness";
+      } else {
+        appendMsg("Please enter a valid age.");
+      }
+      return;
+    }
+
+    if (conversationPhase === "askSymptoms") {
+      userData.symptoms = userText.trim();
+      appendMsg("Analyzing symptoms...", "bot");
+      showInputArea(false);
+
+      const res = findDisease(userData.symptoms);
+      removeLastMsg();
+      if (res.error) {
+        appendMsg(res.error || "Error processing symptoms.", "bot");
+        showInputArea(true);
+        conversationPhase = "askSymptoms";
+        return;
+      }
+
+      let replyText = "";
+      if ((!res.results || res.results.length === 0) && res.mappedColumns.length === 0) {
+        replyText = "Couldn't map your symptoms. Try different words.";
+        appendMsg(replyText, "bot");
+      } else if (!res.results || res.results.length === 0) {
+        replyText = "No diseases matched. See mapping info below.";
+        appendMsg(replyText, "bot");
+        displayResultsBlock(res, res.mappedColumns, res.unmatchedTokens);
+      } else {
+        replyText = "Possible diseases:\n";
+        res.results.slice(0,5).forEach((r, idx) => {
+          replyText += `${idx+1}. ${r.disease} — ${r.matchCount}/${res.mappedColumns.length} (${r.userMatchPercent}%)\n`;
+        });
+        appendMsg(replyText, "bot");
+        displayResultsBlock(res, res.mappedColumns, res.unmatchedTokens);
+      }
+
+      const saveObj = {
+        date: new Date().toLocaleString(),
+        name: userData.name,
+        gender: userData.gender,
+        age: userData.age,
+        symptoms: userData.symptoms,
+        response: (res.results && res.results.length) ? res.results.map(r => `${r.disease} (${r.matchCount}/${res.mappedColumns.length})`).join("; ") : "No match"
+      };
+
+      saveLatestReport(saveObj);
+
+      conversationPhase = "chatting";
+      showInputArea(true);
+      userMessageInput.placeholder = "Ask more symptoms or questions";
+      return;
+    }
+
+    appendMsg("Analyzing...", "bot");
+    const res = findDisease(userText);
+    removeLastMsg();
+    if (res.error) {
+      appendMsg(res.error || "Error processing symptoms.", "bot");
+      return;
+    }
+    if ((!res.results || res.results.length === 0) && res.mappedColumns.length === 0) {
+      appendMsg("Couldn't map symptoms. Try different phrasing.", "bot");
+    } else if (!res.results || res.results.length === 0) {
+      appendMsg("No diseases matched. See mapping info.", "bot");
+      displayResultsBlock(res, res.mappedColumns, res.unmatchedTokens);
+    } else {
+      let replyText = "Possible diseases:\n";
+      res.results.slice(0,5).forEach((r, idx) => {
+        replyText += `${idx+1}. ${r.disease} — ${r.matchCount}/${res.mappedColumns.length} (${r.userMatchPercent}%)\n`;
+      });
+      appendMsg(replyText, "bot");
+      displayResultsBlock(res, res.mappedColumns, res.unmatchedTokens);
+    }
+  }
+
+  // Initialize
+  initializeUserSession();
+  loadDataset();
+  loadNewReportDisplay();
+</script>
+</body>
+</html>

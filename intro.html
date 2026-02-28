@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI HealthVision | Diagnose Smartly</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ===========================================================
+       AI HEALTHVISION | SMART DISEASE DIAGNOSIS SYSTEM
+       ===========================================================
+       CONCEPT OVERVIEW:
+       AI HealthVision is an intelligent digital health platform that uses
+       Artificial Intelligence (AI) to detect, predict, and recommend solutions
+       for possible diseases based on user-reported symptoms and medical patterns.
+       
+       WHY IT MATTERS:
+       - Early detection saves lives by providing faster awareness.
+       - AI learns from massive datasets (medical images, health reports, and cases)
+         to interpret signs humans might overlook.
+       - Personalized chatbot communication makes it user-friendly for everyone,
+         from patients to healthcare professionals.
+       
+       VISUAL THEME CONCEPT:
+       The dark tech interface represents advanced computation,
+       the teal-blue color gradient expresses trust and modern medicine,
+       and the glowing animations indicate continuous analysis.
+    ============================================================ */
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #120a2a 0%, #1a1333 80%);
+      color: #e8f0f8;
+      overflow-x: hidden;
+    }
+
+    .bg-orbit {
+      position: fixed;
+      width: 230vw;
+      height: 230vw;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, #7b4dff40 0%, transparent 70%);
+      animation: rotate 22s linear infinite;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    @keyframes rotate {
+      0% { transform: translate(-50%,-50%) rotate(0deg); }
+      100% { transform: translate(-50%,-50%) rotate(360deg); }
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 30px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      background: linear-gradient(90deg, #7b4dff, #3a0ca3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      color: #a9bedf;
+      max-width: 700px;
+      margin: 15px auto 0;
+      line-height: 1.6;
+    }
+
+    section {
+      z-index: 2;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 70px 20px;
+      gap: 40px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,0.05);
+      border-radius: 18px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.3);
+      flex: 1 1 330px;
+      max-width: 400px;
+      text-align: center;
+      padding: 28px 20px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 14px 38px rgba(31,205,208,0.35);
+    }
+
+    .feature img {
+      width: 90%;
+      border-radius: 14px;
+      margin-bottom: 18px;
+    }
+
+    .feature h3 {
+      color: #7b4dff;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #cfdbe9;
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    .lang-select {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid #7b4dff60;
+      padding: 10px 15px;
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      color: #000;
+      z-index: 3;
+    }
+
+    .lang-select select {
+      background: transparent;
+      border: none;
+      color: inherit;
+      font-size: 1rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0 60px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .to-dashboard {
+      padding: 16px 40px;
+      font-size: 1.18rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background: linear-gradient(90deg,#7b4dff,#3a0ca3);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 6px 22px rgba(31,205,208,0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .to-dashboard:hover {
+      transform: scale(1.06);
+      box-shadow: 0 10px 32px rgba(91,111,255,0.35);
+    }
+
+    @media(max-width:480px){
+      header h1 { font-size: 2.2rem; }
+      .feature { max-width: 90vw; }
+    }
+
+    /* Extra “About” and “AI Chatbot” informational sections */
+    .about, .chat-section {
+      max-width: 900px;
+      margin: 60px auto;
+      text-align: center;
+      padding: 40px 25px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 18px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .about h2, .chat-section h2 {
+      color: #1fcdd0;
+      margin-bottom: 15px;
+    }
+
+    .about p, .chat-section p {
+      color: #cfdbe9;
+      line-height: 1.7;
+      font-size: 1.02rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-orbit"></div>
+
+  <div class="lang-select">
+    <select id="lang">
+      <option value="en" selected>English</option>
+      <option value="hi">हिंदी</option>
+      <option value="es">Español</option>
+    </select>
+  </div>
+
+  <header>
+    <h1 id="title">AI Disease Prediction</h1>
+    <p id="subtitle">
+      Revolutionizing the medical world with artificial intelligence capable of analyzing symptoms,
+      predicting diseases, and connecting patients with accurate medication and expert care.
+    </p>
+  </header>
+
+  <section>
+    <div class="feature">
+      <img src="cyber-brain-7633488.jpg" alt="AI Analysis">
+      <h3 id="feat1t">AI-Powered Analysis</h3>
+      <p id="feat1p">
+        Our advanced neural network models study millions of verified medical datasets to understand disease patterns.
+        Using predictive algorithms, it identifies potential health conditions even before visible symptoms occur.
+      </p>
+    </div>
+
+    <div class="feature">
+      <img src="istockphoto-1353357410-1024x1024.jpg" alt=Realtime Diagnosis">
+      <h3 id="feat2t">Real-time Diagnosis</h3>
+      <p id="feat2p">
+        The system instantly generates insights on possible diseases and suggests appropriate medication guidance
+        and medical experts. This helps users take faster and safer actions toward better health.
+      </p>
+    </div>
+
+    <div class="feature">
+      <img src="cigarette-8771248.png" alt="Localization Language">
+      <h3 id="feat3t">Multilingual Understanding</h3>
+      <p id="feat3p">
+        Communicate in your language of choice. The AI comprehends inputs in multiple languages,
+        allowing worldwide access to diagnostic intelligence and health guidance.
+      </p>
+    </div>
+  </section>
+
+  <!-- ABOUT AI DISEASE DIAGNOSIS -->
+  <div class="about">
+    <h2 id="about1t">What is AI Disease Diagnosis?</h2>
+    <p id="about1p"> 
+      Disease diagnosis is the process of finding out which illness or condition explains a person’s symptoms
+      and health problems. Traditionally, it requires doctors to analyze medical history, test results, and patterns.
+      AI-based diagnosis revolutionizes this by letting smart algorithms perform analysis like a digital doctor.
+      Using deep learning, AI HealthVision recognizes early warning signs from medical data, lab results, or even conversational
+      inputs through the chatbot. The system cross-references these findings with vast global medical databases
+      to pinpoint the most likely disease quickly and accurately.
+    </p>
+  </div>
+
+  <!-- WHY CHOOSE THIS WEBSITE -->
+  <div class="about">
+    <h2 id="about2t">Why Choose AI HealthVision?</h2>
+    <p id="about2p">
+      Unlike ordinary health websites, AI HealthVision is designed with precision-driven technology and patient empathy.
+      It focuses on prevention, smart prediction, and personalized recommendations rather than just showing symptom lists.
+      The user interface is clean, futuristic, and accessible in multiple languages, making diagnostic understanding
+      simple for everyone. The integration with an AI Chatbot ensures constant engagement—an intelligent companion
+      ready to assist you 24/7 in learning about your health in a human-like way.
+    </p>
+  </div>
+
+  <!-- AI CHATBOT FEATURE -->
+    <div class="about">
+    <h2 id="about3t">How the AI Chatbot Helps You</h2>
+    <p id="about3p1">
+      The AI Chatbot acts like a virtual medical assistant. When you start interacting, it first asks questions about your condition such as temperature, pain, fatigue, or other visible symptoms. Based on your responses, it identifies connections among the details. As you add more information, the chatbot’s AI model refines its analysis—producing a prediction of which disease might be developing.
+    </p>
+    <p id="about3p2">
+      It then provides a list of likely illnesses. Basic medication guidance suited for the condition. Specific doctors or specialists you may consult for professional evaluation. The chatbot uses both conversational AI and medical pattern recognition to ensure quick, contextual, and personalized care suggestions.
+    </p>
+  </div>
+
+  <footer>
+    <button class="to-dashboard" onclick="location.href='dash.html'">Go to Dashboard →</button>
+  </footer>
+
+  <script>
+    const langData = {
+  hi: {
+    title:"अगली पीढ़ी का एआई रोग निदान",
+    subtitle:"एआई विश्लेषण और रोग की भविष्यवाणी के साथ मेडिकल दुनिया में क्रांति।",
+    feat1t:"एआई-संचालित विश्लेषण",
+    feat1p:"हमारे मॉडल लाखों वास्तविक मेडिकल डाटा का विश्लेषण करके संभावित बीमारियों की पहचान करते हैं।",
+    feat2t:"रीयल-टाइम निदान",
+    feat2p:"यह सिस्टम सेकंडों में बीमारी की संभावना और सुझाई गई दवाइयाँ बताता है।",
+    feat3t:"बहुभाषी समझ",
+    feat3p:"उपयोगकर्ता अपनी भाषा में स्वास्थ्य निदान आसानी से समझ सकते हैं।",
+    about1t:"एआई रोग निदान क्या है?",
+    about1p:"रोग निदान वह प्रक्रिया है जिसमें यह पता चलता है कि व्यक्ति को कौन-सी बीमारी है। परंपरागत तौर पर डॉक्टर मेडिकल हिस्ट्री, टेस्ट व अन्य जानकारियाँ देखकर बीमारी का पता लगाते हैं। एआई आधारित निदान में स्मार्ट एल्गोरिद्म डॉक्टर की तरह विश्लेषण करते हैं और गहरे मेडिकल डेटा से जल्दी और सटीक बीमारी पहचान लेते हैं।",
+    about2t:"AI HealthVision क्यों चुनें?",
+    about2p:"AI HealthVision का ध्यान केवल लक्षण गिनाने की बजाय स्मार्ट रोकथाम, पूर्वानुमान और व्यक्तिगत सलाह पर है। इसका इंटरफेस कई भाषाओं में उपलब्ध है और एआई चैटबॉट 24/7 मदद करता है।",
+    about3t:"एआई चैटबोट कैसे मदद करता है",
+    about3p1:"एआई चैटबॉट एक वर्चुअल मेडिकल असिस्टेंट की तरह काम करता है। जब आप बातचीत शुरू करते हैं, तो यह सबसे पहले आपकी स्थिति के बारे में सवाल पूछता है, जैसे कि तापमान, दर्द, थकान, या अन्य दिखाई देने वाले लक्षण। आपके जवाबों के आधार पर, यह विवरणों के बीच संबंधों की पहचान करता है। जैसे-जैसे आप और जानकारी जोड़ते हैं, चैटबॉट का एआई मॉडल अपने विश्लेषण को और बेहतर बनाता है—और यह अनुमान लगाता है कि कौन सी बीमारी विकसित हो रही है।",
+    about3p2:"इसके बाद, यह संभावित बीमारियों की एक सूची प्रदान करता है। स्थिति के लिए उपयुक्त बुनियादी दवा मार्गदर्शन। पेशेवर मूल्यांकन के लिए आप जिन विशिष्ट डॉक्टरों या विशेषज्ञों से परामर्श ले सकते हैं, उनकी जानकारी। चैटबॉट त्वरित, प्रासंगिक और व्यक्तिगत देखभाल सुझाव सुनिश्चित करने के लिए संवादात्मक AI और चिकित्सा पैटर्न पहचान, दोनों का उपयोग करता है।"
+  },
+  es: {
+    title:"Diagnóstico de Enfermedades con IA de Nueva Generación",
+    subtitle:"Revolucionando el mundo médico con análisis inteligente y predicciones de enfermedades.",
+    feat1t:"Análisis impulsado por IA",
+    feat1p:"Nuestros modelos analizan millones de datos médicos reales para identificar posibles enfermedades.",
+    feat2t:"Diagnóstico en tiempo real",
+    feat2p:"El sistema ofrece en segundos información médica útil y sugerencias de tratamiento.",
+    feat3t:"Comprensión multilingüe",
+    feat3p:"Interactúa en tu idioma y comprende tu diagnóstico fácilmente.",
+    about1t:"¿Qué es el diagnóstico de enfermedades por IA?",
+    about1p:"El diagnóstico de enfermedades es el proceso para averiguar qué condición o enfermedad explica los síntomas de una persona. Tradicionalmente requiere que los médicos analicen el historial, los resultados y los patrones médicos. La IA revoluciona esto permitiendo que algoritmos inteligentes analicen como un doctor digital. Usando aprendizaje profundo, AI HealthVision reconoce signos de advertencia tempranos a partir de datos, resultados de laboratorio o entrada del chatbot, cruzando esas informaciones con bases de datos globales.",
+    about2t:"¿Por qué elegir AI HealthVision?",
+    about2p:"AI HealthVision se enfoca en prevención, predicción inteligente y recomendaciones personalizadas, no solo en listas de síntomas. Su interfaz es multilingüe y el chatbot está siempre disponible para ayudar.",
+    about3t:"¿Cómo ayuda el chatbot de IA?",
+    about3p1:"El chatbot de IA funciona como un asistente médico virtual. Al interactuar con él, primero te hace preguntas sobre tu estado, como la temperatura, el dolor, la fatiga u otros síntomas visibles. Según tus respuestas, identifica conexiones entre los detalles. A medida que añades más información, el modelo de IA del chatbot perfecciona su análisis y predice qué enfermedad podría estar desarrollándose.",
+    about3p2:"A continuación, proporciona una lista de posibles enfermedades, orientación básica sobre medicamentos adecuados para la afección y recomendaciones de médicos o especialistas a quienes consultar para una evaluación profesional. El chatbot utiliza inteligencia artificial conversacional y reconocimiento de patrones médicos para garantizar sugerencias de atención rápidas, contextuales y personalizadas."
+  },
+  en: {
+    title:"NextGen AI Disease Diagnosis",
+    subtitle:"Revolutionizing the medical world with artificial intelligence capable of analyzing symptoms, predicting diseases, and connecting patients with accurate medication and expert care.",
+    feat1t:"AI-Powered Analysis",
+    feat1p:"Our advanced models study verified medical data to understand disease patterns and predict early signs.",
+    feat2t:"Real-time Diagnosis",
+    feat2p:"AI instantly generates possible disease insights and medication advice for better decision-making.",
+    feat3t:"Multilingual Understanding",
+    feat3p:"Interact in your preferred language for clear, global accessibility.",
+    about1t:"What is AI Disease Diagnosis?",
+    about1p:"Disease diagnosis is the process of finding out which illness or condition explains a person’s symptoms and health problems. Traditionally, doctors analyze medical history, test results, and patterns. AI diagnosis revolutionizes this by letting smart algorithms perform analysis like a digital doctor. Using deep learning, AI HealthVision recognizes early warning signs from data, lab results, or chatbot input and cross-references with global databases for fast, accurate results.",
+    about2t:"Why Choose AI HealthVision?",
+    about2p:"Unlike ordinary health sites, AI HealthVision focuses on prevention, smart prediction, and personalized advice—not just symptom lists. The interface is accessible in multiple languages and the AI chatbot is always available to assist.",
+    about3t:"How the AI Chatbot Helps You",
+    about3p1:"The AI Chatbot acts like a virtual medical assistant. When you start interacting, it first asks questions about your condition, such as temperature, pain, fatigue, or other visible symptoms. Based on your responses, it identifies connections among the details. As you add more information, the chatbot’s AI model refines its analysis—producing a prediction of which disease might be developing.",
+    about3p2:"It then provides a list of likely illnesses. Basic medication guidance suited for the condition. Specific doctors or specialists you may consult for professional evaluation. The chatbot uses both conversational AI and medical pattern recognition to ensurequick, contextual, and personalized care suggestions."
+  }
+};
+
+    document.getElementById('lang').addEventListener('change', e=>{
+      const d = langData[e.target.value];
+      for(const key in d){
+        document.getElementById(key).innerText=d[key];
+      }
+    });
+  </script>
+  <!-- THEMED MODAL FOR FEATURE EXPLANATION -->
+<div id="featureModal" class="feature-modal" style="display:none;">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <h2 id="modalTitle"></h2>
+    <div id="modalImgWrap"><img id="modalImg" src="" alt="" /></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<style>
+  .feature-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(10,20,40,.96);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 50;
+    overflow-y:auto;
+    animation: modalFade .3s;
+  }
+  @keyframes modalFade { from { opacity:0 } to { opacity:1 } }
+  .modal-content {
+    width: 95vw; max-width: 520px;
+    background:radial-gradient(circle,#120a2a 0%,#1a1333 90%);
+    border-radius: 18px;
+    box-shadow: 0 6px 50px #1fcdd0cc;
+    padding: 45px 30px 35px;
+    position: relative;
+    text-align: left;
+    color: #e8f0f8;
+    backdrop-filter: blur(18px);
+  }
+  .modal-content h2 {
+    background: linear-gradient(90deg,#7b4dff,#3a0ca3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-weight: 700;
+    font-size:2rem;
+  }
+  .close-modal {
+    position: absolute;
+    top: 18px; right: 20px;
+    background: none; border: none;
+    font-size: 2.2rem; color: #7b4dff;
+    cursor:pointer;
+    z-index:2;
+    font-family: inherit;
+    font-weight: bold;
+    opacity:0.8;
+    transition: opacity .2s;
+  }
+  .close-modal:hover { opacity:1 }
+  #modalImgWrap {text-align:center;margin-bottom:18px;}
+  #modalImg {width:93%;max-width:370px;border-radius:14px;}
+  #modalBody p {margin-bottom:15px;font-size:1.06rem;color:#cfdbe9;line-height:1.68;}
+</style>
+<script>
+// EXPLANATORY CONTENT IN MULTIPLE LANGUAGES
+const modalData = {
+  feat1: {
+    en: {
+      title:"AI-Powered Analysis",
+      img:"ai-generated-9014077.jpg",
+      body:[
+        "AI-Powered Analysis uses advanced deep learning models to scan immense medical datasets, identifying subtle patterns that often escape human eyes. This transforms the way diseases are discovered, offering greater speed and accuracy than traditional manual review.",
+        "These models rely heavily on radiology images, lab results, and clinical reports, which means even rare or emerging health conditions can be detected early. By learning continuously from new global health data, our system is always up-to-date.",
+        "The benefit for users is clear: smarter, pre-symptomatic predictions and objective risk assessment—before symptoms become dangerous. AI links symptoms, genetics, and lifestyle markers, tailoring insights for each individual.",
+        "As a result, patients, doctors, and researchers gain reliable decision support for preventive measures and faster response. The system's visual intelligence helps spot cancer, heart disease, and viral outbreaks by analyzing millions of similar cases."
+        ],
+    },
+    hi: {
+      title:"एआई-संचालित विश्लेषण",
+      img:"ai-generated-9014077.jpg",
+      body:[
+        "एआई-संचालित विश्लेषण उन्नत डीप लर्निंग मॉडल का उपयोग करके विशाल मेडिकल डाटा का स्कैन करता है, उन पैटर्न को पहचानता है जो अक्सर मनुष्य नहीं देख पाते। इससे बीमारियों की खोज का तरीका बदल जाता है, पारंपरिक तरीकों की तुलना में तेजी और सटीकता मिलती है।",
+        "ये मॉडल रेडियोलॉजी इमेज, लैब रिपोर्ट्स एवं क्लीनिकल रेकार्ड्स पर आधारित होते हैं, जिससे दुर्लभ या नए रोगों की जल्दी पहचान संभव होती है। ग्लोबल हेल्थ डाटा से निरंतर सीखकर सिस्टम हमेशा अपडेट रहता है।",
+        "यूजर्स के लिए फायदा ये है कि पहले ही रोग के संकेत मिल जाते हैं, व्यक्तिगत जोखिम का आकलन हो जाता है—लक्षण गंभीर होने से पहले ही। एआई लक्षणों, जेनेटिक्स व जीवनशैली के आधार पर हर व्यक्ति के लिए सलाह देता है।",
+        "इससे मरीज, डॉक्टर और शोधकर्ता सभी को निर्णय लेने में सहायता मिलती है; रोग की रोकथाम और बेहतर इलाज के लिए समय रहते उम्मीद मिलती है।"
+        ],
+    },
+    es: {
+      title:"Análisis impulsado por IA",
+      img:"ai-generated-9014077.jpg",
+      body:[
+        "El análisis impulsado por IA emplea modelos avanzados para examinar grandes conjuntos de datos médicos, encontrando patrones sutiles que pasan desapercibidos por humanos. Esto agiliza el descubrimiento de enfermedades y mejora la precisión.",
+        "Estos algoritmos utilizan radiografías, resultados de laboratorio y expedientes clínicos; pueden detectar afecciones raras o nuevas antes que cualquiera. Aprende de datos globales, por eso se actualiza constantemente.",
+        "Para el usuario, esto significa predicciones inteligentes y evaluación de riesgos antes de cualquier síntoma serio. La IA vincula síntomas, genética y hábitos, dando orientación personalizada.",
+        "Pacientes y médicos reciben apoyo confiable para la prevención y el tratamiento rápido. El sistema reconoce cáncer, enfermedades cardíacas y brotes virales observando millones de casos similares."
+      ],
+    }
+  },
+  feat2: {
+    en: {
+      title:"Real-time Diagnosis",
+      img:"ai-generated-9268114_1920.jpg",
+      body:[
+        "Real-time Diagnosis turns basic symptom input into instant, detailed medical insights. The AI engine analyzes your responses and integrates them with recent medical discoveries, reporting potential illnesses within seconds.",
+        "Because the analysis is continuous—even as new symptoms or updates are provided—the system refines its diagnostic accuracy. Users can see a dynamic list of likely diseases, severity estimates, and medication advice.",
+        "Every result references globally validated medical knowledge, which means even rare conditions don't go overlooked. Urgent cases trigger clear red flags, helping guide users toward immediate clinical care when needed.",
+        "Patients benefit from actionable answers, so they avoid self-diagnosis mistakes and save time otherwise wasted on uncertainty. The system also recommends certified doctors and specialists best suited to your case."
+        ],
+    },
+    hi: {
+      title:"रीयल-टाइम निदान",
+      img:"ai-generated-9268114_1920.jpg",
+      body:[
+        "रीयल-टाइम निदान साधारण लक्षणों को तुरंत विस्तृत मेडिकल निष्कर्ष में बदल देता है। एआई इंजन आपके जवाब और मेडिकल रिसर्च एक साथ जोड़कर कुछ सेकंड में संभावित बीमारी बताता है।",
+        "निरंतर विश्लेषण की वजह से जैसे जैसे नए लक्षण या जानकारी जुड़ती है, सिस्टम और सटीक निदान करता है। यूजर को संभावित बीमारियों की सूची, गंभीरता का अनुमान और दवा संबंधी सलाह मिलती है।",
+        "हर परिणाम अंतरराष्ट्रीय मेडिकल जानकारी पर आधारित होता है, जिससे दुर्लभ बीमारियाँ भी छुपती नहीं। गंभीर मामलों के लिए तत्काल सलाह मिलती है, ताकि तुरंत इलाज शुरू किया जा सके।",
+        "मरीजों को तत्काल और सटीक जवाब मिलता है; वे गलत आत्म-निदान से बच सकते हैं और समय बचाते हैं। सिस्टम आपके मामले के अनुसार विशेषज्ञ डॉक्टर भी सुझाता है।"
+      ]
+    },
+    es: {
+      title:"Diagnóstico en tiempo real",
+      img:"ai-generated-9268114_1920.jpg",
+      body:[
+        "El diagnóstico en tiempo real convierte síntomas básicos en respuestas clínicas precisas. El motor IA evalúa cada dato y lo combina con investigaciones médicas recientes, mostrando posibles enfermedades en segundos.",
+        "El análisis se ajusta según agregas síntomas, mejorando la precisión en tiempo real. Verás una lista de posibles enfermedades, riesgos y recomendaciones de medicación.",
+        "Todos los resultados usan saber médico validado, evitando que casos raros se pierdan. Si el caso es urgente, las alertas ayudan a buscar ayuda profesional rápidamente.",
+        "El paciente recibe explicaciones y evita la incertidumbre, obteniendo finalmente consejo sobre médicos y especialistas adecuados."
+      ]
+    }
+  },
+  feat3: {
+    en: {
+      title:"Multilingual Understanding",
+      img:"soldiers-8903095_1920.jpg",
+      body:[
+        "Multilingual Understanding lets anyone communicate health concerns in their native language, breaking the barriers of medical jargon and regional differences. The AI chatbot automatically adapts, supporting input and explanations in English, Hindi, or Spanish.",
+        "Complex symptoms and questions are translated accurately by expert-trained models—ensuring vital information is never lost. Patients and doctors from diverse regions receive equally meaningful, clear responses.",
+        "This inclusivity means a rural user in India can get the same high-tech diagnostic help as a professional in Spain or the US. Medical advice reflects cultural context and common terminology for better accuracy.",
+        "Supporting multi-language mirrors our commitment: making advanced health intelligence truly accessible and helpful worldwide, regardless of language or background."
+      ],
+    },
+    hi: {
+      title:"बहुभाषी समझ",
+      img:"soldiers-8903095_1920.jpg",
+      body:[
+        "बहुभाषी समझ का लाभ यह है कि कोई भी व्यक्ति अपनी भाषा में स्वास्थ्य संबंधी जानकारी प्राप्त कर सकता है। एआई चैटबोट अंग्रेजी, हिंदी या स्पेनिश में संवाद और स्पष्टीकरण देता है।",
+        "जटिल लक्षणों और सवालों का अनुवाद विशेषज्ञ प्रशिक्षण मॉडल से होता है—महत्वपूर्ण जानकारी कभी नहीं छूटती। उपयोगकर्ता कहीं भी हों, सबको स्पष्ट जवाब मिलते हैं।",
+        "इससे ग्रामीण भारत का व्यक्ति भी उतनी ही उच्च-तकनीकी स्वास्थ्य सहायता पा सकता है जितना स्पेन या अमेरिका का प्रोफेशनल। मेडिकल सलाह स्थानीय संदर्भ और प्रचलित शब्दों का उपयोग करती है।",
+        "मल्टी-लैंग्वेज सपोर्ट हमारी मुख्य जिम्मेदारी है—सभी के लिए उन्नत स्वास्थ्य समाधान उपलब्ध कराना।"
+      ]
+    },
+    es: {
+      title:"Comprensión multilingüe",
+      img:"soldiers-8903095_1920.jpg",
+      body:[
+        "La comprensión multilingüe permite comunicar problemas de salud en tu idioma, superando barreras de jerga y diferencias regionales. El chatbot adapta entrada y explicación: inglés, hindi o español.",
+        "Síntomas y preguntas complejas se traducen con precisión. Pacientes y médicos de diferentes regiones reciben respuestas claras y útiles.",
+        "Con esto, usuarios rurales en India reciben ayuda igual que profesionales en España o EE.UU. El consejo médico usa el contexto y las palabras más conocidas en cada idioma.",
+        "El soporte multilingüe representa nuestro compromiso: que la salud avanzada sea accesible para cualquiera, en cualquier lugar y lengua."
+      ]
+    }
+  }
+};
+
+function openModal(featKey){
+  const lang = document.getElementById("lang").value;
+  const cont = modalData[featKey][lang];
+  document.getElementById('modalTitle').innerText = cont.title;
+  document.getElementById('modalImg').src = cont.img;
+  document.getElementById('modalImg').alt = cont.title;
+  document.getElementById('modalBody').innerHTML = cont.body.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('featureModal').style.display='flex';
+  document.body.style.overflow="hidden";
+}
+function closeModal(){
+  document.getElementById('featureModal').style.display='none';
+  document.body.style.overflow="";
+}
+
+document.querySelectorAll('.feature').forEach((el,i)=>{
+  el.style.cursor="pointer";
+  el.onclick = ()=> openModal(['feat1','feat2','feat3'][i]);
+});
+document.getElementById('lang').addEventListener('change',()=>{
+  if(document.getElementById("featureModal").style.display==="flex"){
+    const i = [...document.querySelectorAll('.feature')].findIndex(f=>f===window.lastClickedFeature);
+    openModal(['feat1','feat2','feat3'][i]);
+  }
+});
+</script>
+</body>
+</html>
