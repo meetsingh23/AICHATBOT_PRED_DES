@@ -6,15 +6,14 @@ This project is based on AICHATBOT_PRED_DES
 Download full project from Google Drive:
 (https://drive.google.com/file/d/12XfAnFKnHgdj1h7EJpJcHpTcF-Dk9xrb/view?usp=sharing)
 
+## I HAVE REMOVED MY API KEY IN LOGIN.HTML
+
 ## Presentation
 Slide 1 — Title Slide
 
 Project Title:
 AICHATBOT_PRED_DES
 (AI Chatbot Based Disease Prediction and Decision Support System)
-
-Submitted By:
-Khushmeet
 
 Technology Stack:
 HTML, CSS, JavaScript, Python, Flask
