@@ -85,6 +85,17 @@
         </div>
         <p class="small">Tip: enter symptoms separated by commas (Option A)</p>
         <div id="lastResults" class="top-results"></div>
+        <div id="medicalOptions" style="display:none; margin-top:15px;">
+  <h4>What would you like to do next?</h4>
+
+  <button id="doctorBtn" style="padding:10px 18px;border:none;border-radius:8px;background:#1fcdd0;color:#0b132b;font-weight:600;margin-right:10px;cursor:pointer;">
+    🏥 Visit Doctor
+  </button>
+
+  <button id="medicalBtn" style="padding:10px 18px;border:none;border-radius:8px;background:#6a3df0;color:white;font-weight:600;cursor:pointer;">
+    💊 Buy Medicine from Medical Store
+  </button>
+</div>
       </div>
     </div>
   </div>
@@ -102,7 +113,6 @@
   let dataset = [];
   let loaded = false;
 
-  // UI refs
   const pageTitle = document.getElementById("pageTitle");
   const loadStatus = document.getElementById("loadStatus");
   const sendBtn = document.getElementById("sendBtn");
@@ -391,6 +401,7 @@
     userData = { name: null, gender: null, age: null, symptoms: null };
     conversationPhase = "askName";
     document.getElementById("chatMessages").innerHTML = "";
+    document.getElementById("medicalOptions").style.display = "none";
     showInputArea(true);
     appendMsg("Welcome! I will ask a few details and then analyze your symptoms using the dataset.");
     appendMsg("What is your name?");
@@ -437,8 +448,8 @@
         <div class="small">Matched: ${r.matchCount}/${mappedColumns.length} • ${r.userMatchPercent}%</div>`;
       lastResults.appendChild(el);
     });
+    document.getElementById("medicalOptions").style.display = "block";
   }
-
   async function handleUserMessage(userText) {
     appendMsg(userText, "user");
     clearInput();
@@ -528,8 +539,10 @@
       userMessageInput.placeholder = "Ask more symptoms or questions";
       return;
     }
+document.getElementById("medicalOptions").style.display = "none";
+document.getElementById("lastResults").innerHTML = "";
 
-    appendMsg("Analyzing...", "bot");
+appendMsg("Analyzing...", "bot");
     const res = findDisease(userText);
     removeLastMsg();
     if (res.error) {
@@ -555,6 +568,15 @@
   initializeUserSession();
   loadDataset();
   loadNewReportDisplay();
+  document.getElementById("doctorBtn").addEventListener("click", () => {
+  appendMsg("You should consult a doctor for proper diagnosis.", "bot");
+  window.open("https://www.practo.com/", "_blank");
+});
+
+document.getElementById("medicalBtn").addEventListener("click", () => {
+  appendMsg("You can buy medicines from a nearby medical store or pharmacy.", "bot");
+  window.open("https://www.1mg.com/", "_blank");
+});
 </script>
 </body>
 </html>
