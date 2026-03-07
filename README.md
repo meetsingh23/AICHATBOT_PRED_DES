@@ -6,7 +6,8 @@ This project is based on AICHATBOT_PRED_DES
 Download full project from Google Drive:
 (https://drive.google.com/file/d/12XfAnFKnHgdj1h7EJpJcHpTcF-Dk9xrb/view?usp=sharing)
 
-## I HAVE REMOVED MY API KEY IN LOGIN.HTML
+## I HAVE REMOVED MY API KEY IN LOGIN.HTML 
+## Create your own API KEY from FIREBASE
 
 ## Presentation
 Slide 1 — Title Slide
