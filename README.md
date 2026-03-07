@@ -7,285 +7,293 @@ Download full project from Google Drive:
 (https://drive.google.com/file/d/12XfAnFKnHgdj1h7EJpJcHpTcF-Dk9xrb/view?usp=sharing)
 
 ## Presentation
-🩺 AICHATBOT_PRED_DES
-Smart AI-Based Health Diagnosis System
+Slide 1 — Title Slide
 
-Developed by: Khushmeet Singh
+Project Title:
+AICHATBOT_PRED_DES
+(AI Chatbot Based Disease Prediction and Decision Support System)
 
-🔹 Slide 1 – Introduction
+Submitted By:
+Khushmeet
 
-AI HealthVision is a smart web-based health diagnosis system that:
+Technology Stack:
+HTML, CSS, JavaScript, Python, Flask
 
-Collects user symptoms
+Project Type:
+Web Based AI Healthcare System
 
-Matches them with a medical dataset
+Slide 2 — Introduction
 
-Predicts possible diseases
+Healthcare awareness is very important in today's world. Many people experience symptoms but do not immediately know what disease they might be suffering from. In many cases, people either ignore symptoms or search randomly on the internet, which may lead to confusion.
 
-Generates diagnostic reports
+To solve this issue, we developed AICHATBOT_PRED_DES, an AI-based web application that allows users to enter their symptoms and receive possible disease predictions along with basic guidance.
 
-Maintains user history
+This system uses an AI chatbot interface that interacts with users and helps them understand their health condition in a simple and quick way.
 
-The system uses both Frontend (HTML, CSS, JavaScript) and Backend (Flask – Python).
+The main purpose of this project is to provide initial health guidance and decision support to users.
 
-🔹 Slide 2 – Problem Statement
+Slide 3 — Problem Statement
 
-In today’s world:
+In many situations people face several problems related to healthcare:
 
-People often rely on random internet searches for medical advice
+Lack of immediate medical guidance
 
-Access to doctors is not always immediate
+Difficulty in identifying diseases based on symptoms
 
-Self-diagnosis without logic can be risky
+Time consuming doctor consultations
 
-There is a need for a structured, dataset-driven health assistant that:
+High medical consultation costs
 
-Analyzes symptoms logically
+Lack of awareness about early symptoms of diseases
 
-Provides percentage-based disease matching
+Most people search their symptoms on the internet but often get confusing or inaccurate information.
 
-Stores medical reports securely
+Therefore, a system is required that can provide quick, simple and AI-based health guidance.
 
-🔹 Slide 3 – Project Objectives
+Slide 4 — Objective of the Project
 
-The main objectives of this project are:
+The main objectives of AICHATBOT_PRED_DES are:
 
-To build an AI-powered health chatbot
+To create an AI based chatbot that can analyze symptoms
 
-To integrate a medical dataset for disease prediction
+To predict possible diseases based on user input
 
-To implement Flask backend for processing
+To provide a simple and interactive healthcare support system
 
-To generate and store diagnostic reports
+To guide users whether they should visit a doctor or buy medicine from a medical store
 
-To create a professional dashboard UI
+To develop a user friendly web application using modern technologies
 
-🔹 Slide 4 – Technologies Used
-Frontend:
+The system aims to assist users with basic healthcare guidance before consulting professionals.
 
-HTML5
+Slide 5 — Technologies Used
 
-CSS3 (Dark Purple Professional Theme)
+The project uses multiple technologies for frontend and backend development.
 
-JavaScript
+Frontend Technologies
 
-Backend:
+HTML – Used for creating the structure of web pages
 
-Python
+CSS – Used for styling and designing the user interface
 
-Flask Framework
+JavaScript – Used for interactive features and chatbot behavior
 
-Data Handling:
+Backend Technology
 
-CSV Medical Dataset
+Python – Used as the main programming language
 
-Fetch API
+Flask – A lightweight Python web framework used to connect frontend and backend
 
-LocalStorage
+Other Components
 
-Flask routing & API endpoints
+AI based chatbot logic
 
-🔹 Slide 5 – System Architecture
+Web based symptom analysis
 
-User → Login Page → Dashboard → AI Chatbot
-→ Flask Backend → Dataset Processing →
-→ Response → Report Generation → History Storage
+Browser local storage for user information
 
-The system follows a Client–Server Architecture:
+Slide 6 — About Flask Framework
 
-Frontend handles UI
+Flask is a lightweight web framework written in Python. It is widely used for building web applications and APIs.
 
-Flask handles dataset processing
+In this project, Flask is used to:
 
-Backend returns JSON response
+Handle backend processing
 
-🔹 Slide 6 – Flask Backend Role
+Manage communication between frontend and backend
 
-Flask is used to:
+Process user input symptoms
 
-Load and process CSV dataset
+Generate AI-based disease prediction responses
 
-Handle symptom matching logic
+Flask is easy to use, flexible and suitable for small to medium scale web applications.
 
-Create API routes (e.g., /predict)
+It helps developers quickly build and test applications without heavy configuration.
 
-Return JSON-based disease results
+Slide 7 — System Architecture
 
-Manage server-side logic
+The architecture of AICHATBOT_PRED_DES is divided into three main layers:
 
-Example Flow:
+1. User Interface Layer
 
-User Symptoms → POST Request → Flask →
-Match Algorithm → JSON Response → Display on Dashboard
+This layer includes the web pages built using HTML, CSS and JavaScript.
 
-🔹 Slide 7 – Login & Session Management
+Pages included:
 
-Features:
+login.html
 
-User login & signup system
+intro.html
 
-Session ID generation
+dash.html
 
-User data stored in localStorage
+2. Application Layer
 
-Redirect to dashboard after login
+This layer handles the chatbot logic and symptom analysis using JavaScript and Flask.
 
-Logout clears session
+3. Processing Layer
 
-Flask can be extended to handle authentication securely in future versions.
+The AI logic processes the user symptoms and generates disease prediction results.
 
-🔹 Slide 8 – Dashboard Features
+This layered architecture makes the system simple, organized and scalable.
 
-The dashboard includes:
+Slide 8 — System Workflow
 
-Sidebar navigation
+The working process of the system is as follows:
 
-New Report section
+User opens the website.
 
-View History section
+User signs up or logs in through the login page.
 
-AI Chatbox
+After successful login, the user is redirected to the introduction page.
 
-Logout option
+The introduction page explains how the system works.
 
-The UI follows a professional medical dark theme.
+The user then opens the dashboard.
 
-🔹 Slide 9 – AI Chatbot Workflow
+The user enters symptoms in the chatbot interface.
 
-The chatbot collects information step-by-step:
+The AI system analyzes the symptoms.
 
-Ask Name
+The system predicts possible diseases.
 
-Ask Gender
+The user gets options to visit a doctor or buy medicine.
 
-Ask Age
+This workflow ensures a smooth and user friendly experience.
 
-Ask Symptoms (comma-separated input)
+Slide 9 — Login Page (login.html)
 
-Example Input:
+The login page is responsible for user authentication.
 
-fever, headache, nausea
+Features of the login page:
 
-The input is sent to Flask for processing.
+User signup option
 
-🔹 Slide 10 – Dataset Structure
+User login verification
 
-The medical dataset is stored in CSV format:
+Email and password validation
 
-First column → Disease Name
+Redirection to the introduction page after successful login
 
-Other columns → Symptoms (0 or 1 values)
+This page ensures that only authorized users can access the system.
 
-Example:
+Slide 10 — Introduction Page (intro.html)
 
-Disease	Fever	Cough	Headache
-Flu	1	1	1
+The introduction page provides an overview of the system.
 
-Flask reads this dataset and processes matches dynamically.
+Purpose of this page:
 
-🔹 Slide 11 – Matching Algorithm
+Explain the features of the AI health chatbot
 
-The system:
+Guide users about how to use the system
 
-Normalizes user input
+Introduce the main functionalities of the project
 
-Matches symptoms with dataset columns
+This page helps users understand the system before they start using it.
 
-Calculates matching percentage
+Slide 11 — Dashboard Page (dash.html)
 
-Sorts results by highest match
+The dashboard is the main working area of the system.
 
-Formula Used:
+In this page users can:
 
-User Match % =
-(Matched Symptoms / Total Entered Symptoms) × 100
+Enter symptoms in the chatbot interface
 
-Top 10 diseases are returned.
+Receive disease prediction from AI
 
-🔹 Slide 12 – Report Generation
+Get health related suggestions
 
-After diagnosis:
+The dashboard acts as the AI interaction center where the chatbot communicates with the user.
 
-A structured report is generated
+Slide 12 — AI Chatbot Functionality
 
-Stored as Latest Report
+The AI chatbot works by analyzing the symptoms entered by the user.
 
-On logout, moved to History
+Example process:
 
-Can be viewed anytime
+User enters symptoms such as:
 
-Reports include:
+Fever
 
-Name
+Headache
 
-Gender
+Weakness
 
-Age
+The chatbot processes these symptoms and predicts possible diseases such as:
 
-Symptoms
+Flu
 
-Top matching diseases
+Viral Infection
 
-Date
+Cold
 
-🔹 Slide 13 – UI & Design Highlights
+This prediction helps the user understand possible health conditions.
 
-Dark Purple Medical Theme
+Slide 13 — Decision Support Feature
 
-Sidebar Navigation
+After predicting possible diseases, the system provides two options to the user:
 
-Animated Chat Bubbles
+Visit Doctor
 
-Responsive Layout
+If the symptoms indicate a serious condition, the user is advised to visit a doctor.
 
-Clean Dashboard Interface
+Visit Medical Store
 
-The design enhances user experience and professionalism.
+If the disease appears to be minor, the user can purchase medicine from a medical store.
 
-🔹 Slide 14 – Advantages
+This feature helps users make better healthcare decisions.
 
-✔ Fast disease prediction
-✔ Dataset-driven logic
-✔ Flask backend processing
-✔ No heavy AI model required
-✔ Easy to deploy
+Slide 14 — Advantages of the System
 
-🔹 Slide 15 – Limitations
+The system provides several benefits:
 
-Not a replacement for professional doctors
+Fast disease prediction
 
-Accuracy depends on dataset quality
+Simple and easy to use interface
 
-No real-time hospital integration
+Time saving for users
 
-No advanced ML model yet
+Basic healthcare guidance
 
-🔹 Slide 16 – Future Enhancements
+Accessible from any web browser
 
-Integrate Machine Learning model
+Useful for early symptom awareness
 
-Add doctor consultation system
+Slide 15 — Limitations
 
-Implement secure database (MySQL)
+Although the system is useful, it also has some limitations:
 
-Generate downloadable PDF reports
+AI prediction may not always be fully accurate
 
-Add multi-language support
+It cannot replace professional medical diagnosis
 
-Deploy on cloud server
+The system depends on user input accuracy
 
-🔹 Slide 17 – Conclusion
+Internet access is required
 
-AI HealthVision is a smart AI-powered health assistant that:
+Therefore, the system should be used as guidance only.
 
-Uses Flask backend for processing
+Slide 16 — Future Enhancements
 
-Matches symptoms with medical dataset
+Future improvements for this project may include:
 
-Provides percentage-based diagnosis
+Integration with real hospital databases
 
-Generates structured reports
+Online doctor consultation feature
 
-Offers a modern dashboard interface
+Medicine recommendation system
 
-It is scalable, lightweight, and practical.
+Advanced machine learning models
+
+Mobile application version
+
+Integration with wearable health devices
+
+These enhancements can make the system more powerful and useful.
+
+Slide 17 — Conclusion
+
+AICHATBOT_PRED_DES is an AI-based healthcare support system designed to help users understand their possible health conditions based on symptoms.
+
+The system combines web technologies and AI chatbot functionality to provide quick disease prediction and basic health guidance.
+
+Although it does not replace professional medical consultation, it serves as an effective decision support tool for initial health awareness.
